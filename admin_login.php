@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Login Page</title>
+	<title>Admin Login Page</title>
 </head>
 <body>
-	<h1>Login Page</h1>
+	<h1>Admin Login Page</h1>
 	<?php
 		if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 			$username = $_POST['username'];
@@ -22,9 +22,9 @@
 		}
 	?>
 	<form method="POST">
-		<label for="username">Username:</label>
+		<label for="username">Admin Username:</label>
 		<input type="text" id="username" name="username" required><br><br>
-		<label for="password">Password:</label>
+		<label for="password">Admin Password:</label>
 		<input type="password" id="password" name="password" required><br><br>
 		<input type="submit" value="Log In">
 	</form>
