@@ -1,3 +1,9 @@
+<?php
+
+require "dbconfig.php";
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -20,25 +26,62 @@
 	<h1>Create a new account</h1>
 	<div class="new-account-container">
           <div class="new-account-form">
-            <form action="post_account_creation.php" method="POST">
+            <form action="create_account.php" method="POST">
                   <div class="new-account-form-body">
                     <div class="new-account-form-control">
                       <label class="required" for="username">Create a new username: </label>
                       <input type="text" name="username" id="username" required>
-                    </div>
+                    </div><br>
                     <div class="new-account-form-control">
                       <label class="required" for="password">Create a new password: </label>
                       <input type="text" name="password" id="password" required>
-                    </div>  
+                    </div><br>
                     <div class="new-account-form-control">
                       <label class="required" for="confirmPassword">Confirm your new password: </label>
                       <input type="text" name="confirmPassword" id="confirmPassword" required>
-                    </div> 
-                    <button>
-                          <span>Create account</span>
-                    </button>   
+                    </div><br>
+                    <div class="new-account-form-control">
+                      <label class="required" for="balance">Enter your initial deposit: </label>
+                      <input type="number" name="balance" id="balance" required>
+                    </div><br>  
+                    <input name="createAccountButton" type="submit" id="createAccountButton" value="Create Account">
                   </div>     
               </form>
+              <?php
+                  if(isset($_POST['createAccountButton'])){
+                    $username = $_POST['username'];
+                    $password = $_POST['password'];
+                    $cpassword = $_POST['confirmPassword'];
+                    $balance = $_POST['balance'];
+                    
+                    if($password == $cpassword){
+                      $query = "SELECT * FROM user WHERE username='$username'";
+                      $query_run = mysqli_query($conn, $query);
+                      
+                      if(mysqli_num_rows($query_run)>0){
+                        echo "<script>alert('User already exists');</script>";
+                      }
+                      else{
+                        $query = "INSERT INTO user VALUES('$username', '$password', '$balance')";
+                        $query_run = mysqli_query($conn, $query);
+
+                        if($query_run){
+                          echo "<script>alert('Registration successful');</script>";
+                        }
+                        else{
+                          echo "<script>alert('Registration failed');</script>";
+                        }
+                      }
+                    }
+
+                  }
+              ?>
           </div>    
       </div> 
 </body>
+
+
+
+
+
+
