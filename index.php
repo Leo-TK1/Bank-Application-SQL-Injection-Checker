@@ -21,6 +21,36 @@
 	<div>
 		<button onclick="location.href='create_account.php'">Create Account</button>
 		<button onclick="location.href='login.php'">Log In</button>
-		<button onclick="location.href='admin_login.php'">Admin Login</button>
+        <?php
+            session_start();
+
+            if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true){
+                // The user is logged in, so show the logout button
+                echo '<form action="" method="post">';
+                echo '<input type="submit" name="logout" value="Logout">';
+                echo '</form>';
+
+                // The user is logged in, so show the account button
+                echo '<form action="" method="post">';
+                echo '<input type="submit" name="goToAccountHome" value="Go To Account">';
+                echo '</form>';
+
+                // Check if the logout button was clicked
+                if(isset($_POST["logout"])){
+                    // Set loggedin to false and username to an empty string
+                    $_SESSION["loggedin"] = false;
+                    $_SESSION["username"] = "";
+                    
+                    // Redirect the user to the login page
+                    header("location: logout_successful.php");
+                }
+
+                // Check if the logout button was clicked
+                if(isset($_POST["goToAccountHome"])){
+                    // Redirect the user to the login page
+                    header("location: account_home.php");
+                }
+            }
+        ?>
 	</div>
 </body>

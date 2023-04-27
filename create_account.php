@@ -1,3 +1,9 @@
+<?php
+
+require "dbconfig.php";
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -20,25 +26,67 @@
 	<h1>Create a new account</h1>
 	<div class="new-account-container">
           <div class="new-account-form">
-            <form action="post_account_creation.php" method="POST">
+            <form action="create_account.php" method="POST">
                   <div class="new-account-form-body">
                     <div class="new-account-form-control">
                       <label class="required" for="username">Create a new username: </label>
                       <input type="text" name="username" id="username" required>
-                    </div>
+                    </div><br>
                     <div class="new-account-form-control">
                       <label class="required" for="password">Create a new password: </label>
-                      <input type="text" name="password" id="password" required>
-                    </div>  
+                      <input type="password" name="password" id="password" required>
+                    </div><br>
                     <div class="new-account-form-control">
                       <label class="required" for="confirmPassword">Confirm your new password: </label>
-                      <input type="text" name="confirmPassword" id="confirmPassword" required>
-                    </div> 
-                    <button>
-                          <span>Create account</span>
-                    </button>   
+                      <input type="password" name="confirmPassword" id="confirmPassword" required>
+                    </div><br>
+                    <div class="new-account-form-control">
+                      <label class="required" for="balance">Enter your initial deposit: </label>
+                      <input type="number" name="balance" id="balance" required>
+                    </div><br>  
+                    <input name="createAccountButton" type="submit" id="createAccountButton" value="Create Account">
                   </div>     
               </form>
+              <?php
+                  if(isset($_POST['createAccountButton'])){
+                    $username = $_POST['username'];
+                    $password = $_POST['password'];
+                    $cpassword = $_POST['confirmPassword'];
+                    $balance = $_POST['balance'];
+                    
+                    if($password == $cpassword){
+                      $query = "SELECT * FROM user WHERE username='$username'";
+                      $query_run = mysqli_query($conn, $query);
+                      
+                      if(mysqli_num_rows($query_run)>0){
+                        echo "<script>alert('Username is taken. Choose another.');</script>";
+                      }
+                      else{
+                        $unique_number = uniqid('', true) . microtime(true);
+                        //SQL VULNERABLE TO BOOLEAN-BASED, TIME-BASED, UNION-BASED, AND OUT OF BOUND INJECTIONS
+		                    //NO INPUT SANITIZATION, PREPARED SQL STATEMENTS, OR INPUT VALIDATION
+                        $query = "INSERT INTO user VALUES('$unique_number', '$username', '$password', '$balance', '0')";
+                        $query_run = mysqli_query($conn, $query);
+
+                        if($query_run){
+                          
+                          header('Location: registration_success.php');
+                          exit();
+                        }
+                        else{
+                          echo "<script>alert('Registration failed');</script>";
+                        }
+                      }
+                    }
+
+                  }
+              ?>
           </div>    
       </div> 
 </body>
+
+
+
+
+
+
