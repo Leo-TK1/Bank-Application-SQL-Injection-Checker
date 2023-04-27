@@ -34,11 +34,11 @@ require "dbconfig.php";
                     </div><br>
                     <div class="new-account-form-control">
                       <label class="required" for="password">Create a new password: </label>
-                      <input type="text" name="password" id="password" required>
+                      <input type="password" name="password" id="password" required>
                     </div><br>
                     <div class="new-account-form-control">
                       <label class="required" for="confirmPassword">Confirm your new password: </label>
-                      <input type="text" name="confirmPassword" id="confirmPassword" required>
+                      <input type="password" name="confirmPassword" id="confirmPassword" required>
                     </div><br>
                     <div class="new-account-form-control">
                       <label class="required" for="balance">Enter your initial deposit: </label>
@@ -59,14 +59,19 @@ require "dbconfig.php";
                       $query_run = mysqli_query($conn, $query);
                       
                       if(mysqli_num_rows($query_run)>0){
-                        echo "<script>alert('User already exists');</script>";
+                        echo "<script>alert('Username is taken. Choose another.');</script>";
                       }
                       else{
-                        $query = "INSERT INTO user VALUES('$username', '$password', '$balance')";
+                        $unique_number = uniqid('', true) . microtime(true);
+                        //SQL VULNERABLE TO BOOLEAN-BASED, TIME-BASED, UNION-BASED, AND OUT OF BOUND INJECTIONS
+		                    //NO INPUT SANITIZATION, PREPARED SQL STATEMENTS, OR INPUT VALIDATION
+                        $query = "INSERT INTO user VALUES('$unique_number', '$username', '$password', '$balance', '0')";
                         $query_run = mysqli_query($conn, $query);
 
                         if($query_run){
-                          echo "<script>alert('Registration successful');</script>";
+                          
+                          header('Location: registration_success.php');
+                          exit();
                         }
                         else{
                           echo "<script>alert('Registration failed');</script>";
