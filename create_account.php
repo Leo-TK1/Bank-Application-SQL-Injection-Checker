@@ -48,16 +48,19 @@ require "dbconfig.php";
                   </div>     
               </form>
               <?php
+		  //if the create account button is pressed, user input is saved via the POST method
                   if(isset($_POST['createAccountButton'])){
                     $username = $_POST['username'];
                     $password = $_POST['password'];
                     $cpassword = $_POST['confirmPassword'];
                     $balance = $_POST['balance'];
                     
+			//database is queried if the password matches the confirm password
                     if($password == $cpassword){
                       $query = "SELECT * FROM user WHERE username='$username'";
                       $query_run = mysqli_query($conn, $query);
                       
+			//if username is already taken, user is prompted to choose another one.
                       if(mysqli_num_rows($query_run)>0){
                         echo "<script>alert('Username is taken. Choose another.');</script>";
                       }
@@ -67,7 +70,8 @@ require "dbconfig.php";
 		                    //NO INPUT SANITIZATION, PREPARED SQL STATEMENTS, OR INPUT VALIDATION
                         $query = "INSERT INTO user VALUES('$unique_number', '$username', '$password', '$balance', '0')";
                         $query_run = mysqli_query($conn, $query);
-
+			
+			//if registration is successfully, user will be sent to the next page. If not, they will be prompted to try again.
                         if($query_run){
                           
                           header('Location: registration_success.php');
