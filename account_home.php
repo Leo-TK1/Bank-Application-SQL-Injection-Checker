@@ -42,20 +42,20 @@ if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true){
         echo '<input type="submit" name="depositFunds" value="Deposit Funds">';
         echo '</form>';
 
-        // Check if the logout button was clicked
+        // Check if the deposit button was clicked
         if(isset($_POST["depositFunds"])){
-            // Redirect the user to the login page
+            // Redirect the user to the deposit page
             header("location: deposit.php");
         }
 
-         // The user is logged in, so show the deposit button
+         // The user is logged in, so show the withdraw button
          echo '<form action="" method="post">';
          echo '<input type="submit" name="withdrawFunds" value="Withdraw Funds">';
          echo '</form>';
  
-         // Check if the logout button was clicked
+         // Check if the withdraw button was clicked
          if(isset($_POST["withdrawFunds"])){
-             // Redirect the user to the login page
+             // Redirect the user to the withdraw page
              header("location: withdraw.php");
          }
 
