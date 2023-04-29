@@ -1,3 +1,5 @@
+//creates connection to database on local device
+
 <?php
 
     $hostname = "localhost";
