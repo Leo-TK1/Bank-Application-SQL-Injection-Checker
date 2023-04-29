@@ -16,7 +16,7 @@
         // Get the inputted amount
         $amount = $_POST["amount"];
 
-        // Subtract the amount from the balance in the database
+        // Add the amount to the balance in the database
         $username = $_SESSION["username"];
         $query = "UPDATE user SET balance = balance + $amount WHERE username = '$username'";
         $query_run = mysqli_query($conn, $query);
