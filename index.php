@@ -41,13 +41,13 @@
                     $_SESSION["loggedin"] = false;
                     $_SESSION["username"] = "";
                     
-                    // Redirect the user to the login page
+                    // Redirect the user to the next page
                     header("location: logout_successful.php");
                 }
 
-                // Check if the logout button was clicked
+                // Check if the account button was clicked
                 if(isset($_POST["goToAccountHome"])){
-                    // Redirect the user to the login page
+                    // Redirect the user to the account home page
                     header("location: account_home.php");
                 }
             }
