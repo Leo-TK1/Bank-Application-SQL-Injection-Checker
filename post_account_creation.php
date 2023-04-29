@@ -5,9 +5,14 @@
     $username = $_POST['username'];
     $password = $_POST['password'];
 
+//SQL VULNERABLE TO BOOLEAN-BASED, TIME-BASED, UNION-BASED, AND OUT OF BOUND INJECTIONS
+            //NO INPUT SANITIZATION, PREPARED SQL STATEMENTS, OR INPUT VALIDATION
+
+//Adds user input for username into the database
     $query = "INSERT INTO user (username) VALUES ('$username')";
     $result = mysqli_query($conn, $query) or die (mysqli_error($conn));
 
+//Adds user input for password into the database in the same row as the username
     $query = "UPDATE accounts SET password = '$password' WHERE username = '$username' ";
     $result = mysqli_query($conn, $query) or die (mysqli_error($conn));
 
